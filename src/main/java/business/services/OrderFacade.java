@@ -4,7 +4,7 @@ import business.persistence.CupcakeMapper;
 
 public class OrderFacade {
 
-    CupcakeMapper cupcakeMapper;
+    private CupcakeMapper cupcakeMapper;
 
     public OrderFacade() {
         cupcakeMapper = new CupcakeMapper();
@@ -14,7 +14,7 @@ public class OrderFacade {
         double toppingPrice = 0;
         double bottomPrice = 0;
         double[] cupcakeTopBotPrice = new double[2];
-        double[] prices = new double[2];
+        double[] prices = new double[4];
 
         cupcakeTopBotPrice = cupcakeMapper.getPrices(topping, bottom);
         toppingPrice = cupcakeTopBotPrice[0];
@@ -22,7 +22,15 @@ public class OrderFacade {
 
         prices[0] = (toppingPrice + bottomPrice) * amount;
         prices[1] = toppingPrice + bottomPrice;
+        prices[2] = toppingPrice;
+        prices[3] = bottomPrice;
 
         return prices;
+    }
+
+    public String[] getTopBotNames(int topping, int bottom) {
+        String[] cupcakebotTopNames = cupcakeMapper.getCupcakeTopBotNames(topping, bottom);
+
+        return cupcakebotTopNames;
     }
 }

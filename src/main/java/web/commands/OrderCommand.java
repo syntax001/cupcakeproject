@@ -16,7 +16,7 @@ public class OrderCommand extends CommandUnprotectedPage {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
-        int top = Integer.parseInt(request.getParameter("top"));
+        int top = Integer.parseInt(request.getParameter("topping"));
         int bottom = Integer.parseInt(request.getParameter("bottom"));
         int amount = Integer.parseInt(request.getParameter("amount"));
 
@@ -27,7 +27,13 @@ public class OrderCommand extends CommandUnprotectedPage {
         double[] prices = orderFacade.calcPrices(top, bottom, amount);
         request.setAttribute("totalPrice", prices[0]);
         request.setAttribute("perCupcakePrice", prices[1]);
+        request.setAttribute("toppingPrice", prices[2]);
+        request.setAttribute("bottomPrice", prices[3]);
 
-        return null; // TODO: Tilføj side den skal retuneres til (Kvittering side)
+        String [] topBotNames = orderFacade.getTopBotNames(top, bottom);
+        request.setAttribute("topping", topBotNames[0]);
+        request.setAttribute("bottom", topBotNames[1]);
+
+        return pageToShow;
     }
 }

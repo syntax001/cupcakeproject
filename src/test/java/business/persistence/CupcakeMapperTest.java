@@ -22,4 +22,11 @@ public class CupcakeMapperTest {
         assertEquals(98.00, prices[0]);
         assertEquals(14.00, prices[1]);
     }
+
+    @Test
+    public void getCupcakeTopBotNames(){
+        String [] topBotNames = cupcakeMapper.getCupcakeTopBotNames(2, 2);
+        assertEquals("Rasberry", topBotNames[0]);
+        assertEquals("Nutmeg", topBotNames[1]);
+    }
 }

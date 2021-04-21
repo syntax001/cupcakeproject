@@ -1,16 +1,20 @@
 package business.persistence;
 
 import business.entities.CupcakeAccessories;
+import business.entities.User;
+import business.exceptions.UserException;
 
+import java.sql.*;
 import java.util.LinkedHashMap;
-import java.util.Set;
 
 public class CupcakeMapper {
+    private Database database;
     private LinkedHashMap<Integer, CupcakeAccessories> toppings;
-    private LinkedHashMap<Integer, CupcakeAccessories > bottoms;
+    private LinkedHashMap<Integer, CupcakeAccessories> bottoms;
     // TODO: Indsæt toppings og bottoms ind i database
 
-    public CupcakeMapper() {
+    public CupcakeMapper(Database database) {
+        this.database = database;
         toppings = new LinkedHashMap<Integer, CupcakeAccessories>();
         bottoms = new LinkedHashMap<Integer, CupcakeAccessories>();
 
@@ -49,5 +53,40 @@ public class CupcakeMapper {
         cupcakeTopBotNames[1] = bottoms.get(bottom).getAccessories();
 
         return cupcakeTopBotNames;
+    }
+
+    public void uploadCupcakeOrder(User user, int topping, int bottom, int amount) throws UserException {
+        int userId = user.getId();
+        int orderId = 0;
+
+        try (Connection connection = database.connect()) {
+            // SQL Statement 1
+            String sql1 = "INSERT INTO orders (customer_id) VALUES (?)";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(1, userId);
+                ps.executeUpdate();
+                ResultSet ids = ps.getGeneratedKeys();
+                ids.next();
+                orderId = ids.getInt(1);
+            } catch (SQLException ex) {
+                throw new UserException(ex.getMessage());
+            }
+
+            // SQL statement 2
+            String sql2 = "INSERT INTO cupcake_orders (order_id, cupcake_toppings_id, cupcake_bottoms_id, amount) VALUES (?, ?, ?, ?)";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql2)) {
+                ps.setInt(1, orderId);
+                ps.setInt(2, topping);
+                ps.setInt(3, bottom);
+                ps.setInt(4, amount);
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                throw new UserException(ex.getMessage());
+            }
+        } catch (SQLException ex) {
+            throw new UserException(ex.getMessage());
+        }
     }
 }

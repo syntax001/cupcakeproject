@@ -1,13 +1,16 @@
 package business.services;
 
+import business.entities.User;
+import business.exceptions.UserException;
 import business.persistence.CupcakeMapper;
+import business.persistence.Database;
 
 public class OrderFacade {
 
     private CupcakeMapper cupcakeMapper;
 
-    public OrderFacade() {
-        cupcakeMapper = new CupcakeMapper();
+    public OrderFacade(Database database) {
+        cupcakeMapper = new CupcakeMapper(database);
     }
 
     public double[] calcPrices(int topping, int bottom, int amount) {
@@ -32,5 +35,9 @@ public class OrderFacade {
         String[] cupcakebotTopNames = cupcakeMapper.getCupcakeTopBotNames(topping, bottom);
 
         return cupcakebotTopNames;
+    }
+
+    public void uploadOrder(User user, int topping, int bottom, int amount) throws UserException {
+        cupcakeMapper.uploadCupcakeOrder(user, topping, bottom, amount);
     }
 }

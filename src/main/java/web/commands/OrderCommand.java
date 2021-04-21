@@ -1,17 +1,19 @@
 package web.commands;
 
+import business.entities.User;
 import business.exceptions.UserException;
 import business.services.OrderFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class OrderCommand extends CommandUnprotectedPage {
     private OrderFacade orderFacade;
 
     public OrderCommand(String pageToShow) {
         super(pageToShow);
-        orderFacade = new OrderFacade();
+        orderFacade = new OrderFacade(database);
     }
 
     @Override
@@ -33,6 +35,12 @@ public class OrderCommand extends CommandUnprotectedPage {
         String [] topBotNames = orderFacade.getTopBotNames(top, bottom);
         request.setAttribute("topping", topBotNames[0]);
         request.setAttribute("bottom", topBotNames[1]);
+
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        if(user != null) {
+            orderFacade.uploadOrder(user, top, bottom, amount);
+        }
 
         return pageToShow;
     }

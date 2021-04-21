@@ -36,9 +36,9 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label class="col-sm-1 col-form-label" for="phone">Phone</label>
+                    <label class="col-sm-1 col-form-label" for="name">Name</label>
                     <div class="col-sm-4">
-                        <input id="phone" class="form-control" type="text" name="phone" value="${param.phone}"  placeholder="Enter your phone number">
+                        <input id="name" class="form-control" type="text" name="name" value="${param.name}"  placeholder="Enter your full name">
                     </div>
                 </div>
                 <input class="btn btn-primary" type="submit" type="submit" value="Submit">

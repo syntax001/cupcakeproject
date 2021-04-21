@@ -19,9 +19,9 @@ public class UserFacade
         return userMapper.login(email, password);
     }
 
-    public User createUser(String email, String password) throws UserException
+    public User createUser(String email, String password, String phone_number, String name) throws UserException
     {
-        User user = new User(email, password, "customer");
+        User user = new User(email, password, "customer", phone_number, name);
         userMapper.createUser(user);
         return user;
     }

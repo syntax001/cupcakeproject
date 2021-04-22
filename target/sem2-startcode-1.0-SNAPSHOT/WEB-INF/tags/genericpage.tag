@@ -33,6 +33,8 @@
         <c:if test="${addHomeLink == null }">
             <a class="p-2 text-dark" href="<%=request.getContextPath()%>">Home</a>
         </c:if>
+
+        <!-- TODO: Redirect to login page, if you not logged. (Also redirect towards page requested after log in) -->
         <a class="p-2 text-dark" href="#">Orders</a>
         <a class="p-2 text-dark" href="#">Profile</a>
         <a class="p-2 text-dark" href="#">About</a>

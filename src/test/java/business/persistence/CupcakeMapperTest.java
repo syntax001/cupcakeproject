@@ -26,25 +26,34 @@ public class CupcakeMapperTest {
     public static void setUpClass() {
         try {
             database = new Database(USER, PASSWORD, URL);
+            try (Statement stmt = database.connect().createStatement()) {
+                stmt.execute("SET FOREIGN_KEY_CHECKS = 0");
+                stmt.execute("drop table if exists shopping_cart");
+                stmt.execute("drop table if exists users");
+                stmt.execute("drop table if exists cupcake_orders");
+                stmt.execute("drop table if exists cupcake_bottoms");
+                stmt.execute("drop table if exists cupcake_toppings");
+                stmt.execute("create table " + TESTDATABASE + ".shopping_cart LIKE " + DATABASE + ".shopping_cart;");
+                stmt.execute("create table " + TESTDATABASE + ".users LIKE " + DATABASE + ".users;");
+                stmt.execute("create table " + TESTDATABASE + ".cupcake_orders LIKE " + DATABASE + ".cupcake_orders;");
+                stmt.execute("create table " + TESTDATABASE + ".cupcake_bottoms LIKE " + DATABASE + ".cupcake_bottoms;");
+                stmt.execute("create table " + TESTDATABASE + ".cupcake_toppings LIKE " + DATABASE + ".cupcake_toppings;");
+                stmt.execute("INSERT INTO "+ TESTDATABASE +".cupcake_bottoms SELECT * FROM "+ DATABASE +".cupcake_bottoms;");
+                stmt.execute("INSERT INTO "+ TESTDATABASE +".cupcake_toppings SELECT * FROM "+ DATABASE +".cupcake_toppings;");
+            } catch (SQLException ex) {
+                System.out.println("Could not open connection to database: " + ex.getMessage());
+            }
             cupcakeMapper = new CupcakeMapper(database);
             orderFacade = new OrderFacade(database);
         } catch (ClassNotFoundException e) {   // kan ikke finde driveren i database klassen
             fail("Database connection failed. Missing jdbc driver");
+        } catch (UserException e) {
+            e.printStackTrace();
         }
     }
 
     @Test
     public void testOrderUpload() throws UserException {
-        try (Statement stmt = database.connect().createStatement()) {
-            stmt.execute("SET FOREIGN_KEY_CHECKS = 0");
-            stmt.execute("drop table if exists orders");
-            stmt.execute("drop table if exists cupcake_orders");
-            stmt.execute("create table " + TESTDATABASE + ".orders LIKE " + DATABASE + ".orders;");
-            stmt.execute("create table " + TESTDATABASE + ".cupcake_orders LIKE " + DATABASE + ".cupcake_orders;");
-        } catch (SQLException ex) {
-            System.out.println("Could not open connection to database: " + ex.getMessage());
-        }
-
         User user = new User("test@test.com", "123", "customer", "73899212", "test");
         user.setId(1);
         orderFacade.uploadOrder(user, 2, 5, 10);
@@ -53,41 +62,22 @@ public class CupcakeMapperTest {
         int cupcakeBottom = 0;
         int amount = 0;
 
-        try (Connection connection = database.connect())
-        {
-            String sql1 = "SELECT order_id FROM orders WHERE customer_id=?";
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT order_id, cupcake_toppings_id, cupcake_bottoms_id, amount FROM cupcake_orders WHERE customer_id=?";
 
-            try (PreparedStatement ps = connection.prepareStatement(sql1))
-            {
-                ps.setInt(1, 1);
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, user.getId());
                 ResultSet rs = ps.executeQuery();
-                if (rs.next())
-                {
+                if (rs.next()) {
                     orderId = rs.getInt("order_id");
-                }
-            }
-
-            String sql2 = "SELECT cupcake_toppings_id, cupcake_bottoms_id, amount FROM cupcake_orders WHERE order_id=?";
-
-            try (PreparedStatement ps = connection.prepareStatement(sql2))
-            {
-                ps.setInt(1, orderId);
-                ResultSet rs = ps.executeQuery();
-                if (rs.next())
-                {
                     cupcakeTopping = rs.getInt("cupcake_toppings_id");
                     cupcakeBottom = rs.getInt("cupcake_bottoms_id");
                     amount = rs.getInt("amount");
                 }
-            }
-
-            catch (SQLException ex)
-            {
+            } catch (SQLException ex) {
                 throw new UserException(ex.getMessage());
             }
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new UserException("Connection to database could not be established");
         }
 

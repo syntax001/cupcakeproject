@@ -17,8 +17,7 @@ public abstract class Command
     private static HashMap<String, Command> commands;
     public static Database database;
 
-    private static void initCommands(Database database)
-    {
+    private static void initCommands(Database database) throws UserException {
         commands = new HashMap<>();
         commands.put("index", new CommandUnprotectedPage("index"));
         commands.put("loginpage", new CommandUnprotectedPage("loginpage"));
@@ -29,12 +28,12 @@ public abstract class Command
         commands.put("customerpage", new CommandProtectedPage("customerpage", "customer"));
         commands.put("employeepage", new CommandProtectedPage("employeepage", "employee"));
         commands.put("cupcakeOrderCommand", new OrderCommand("receipt"));
+        commands.put("myOrdersCommand", new MyOrdersCommand("myorders", "customer"));
     }
 
     public static Command fromPath(
             HttpServletRequest request,
-            Database db)
-    {
+            Database db) throws UserException {
         String action = request.getPathInfo().replaceAll("^/+", "");
         System.out.println("--> " + action);
 

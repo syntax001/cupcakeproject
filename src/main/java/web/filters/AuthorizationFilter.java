@@ -1,5 +1,6 @@
 package web.filters;
 
+import business.exceptions.UserException;
 import web.FrontController;
 import web.commands.Command;
 import web.commands.CommandProtectedPage;
@@ -36,7 +37,12 @@ public class AuthorizationFilter implements Filter
         String servletPath = req.getServletPath();
         if (servletPath != null && servletPath.equals("/fc"))
         {
-            Command command = Command.fromPath(req, FrontController.database);
+            Command command = null;
+            try {
+                command = Command.fromPath(req, FrontController.database);
+            } catch (UserException e) {
+                e.printStackTrace();
+            }
             HttpSession session = req.getSession(false);
             if (command instanceof CommandProtectedPage)
             {

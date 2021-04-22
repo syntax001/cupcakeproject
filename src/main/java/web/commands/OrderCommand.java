@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 public class OrderCommand extends CommandUnprotectedPage {
     private OrderFacade orderFacade;
 
-    public OrderCommand(String pageToShow) {
+    public OrderCommand(String pageToShow) throws UserException {
         super(pageToShow);
         orderFacade = new OrderFacade(database);
     }

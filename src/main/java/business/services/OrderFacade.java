@@ -9,7 +9,7 @@ public class OrderFacade {
 
     private CupcakeMapper cupcakeMapper;
 
-    public OrderFacade(Database database) {
+    public OrderFacade(Database database) throws UserException {
         cupcakeMapper = new CupcakeMapper(database);
     }
 
@@ -40,4 +40,12 @@ public class OrderFacade {
     public void uploadOrder(User user, int topping, int bottom, int amount) throws UserException {
         cupcakeMapper.uploadCupcakeOrder(user, topping, bottom, amount);
     }
+
+  /*  public String [] getOrders(User user) throws UserException {
+        String [] orderData;
+
+        return orderData;
+    }
+
+   */
 }

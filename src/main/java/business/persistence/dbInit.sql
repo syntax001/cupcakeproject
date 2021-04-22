@@ -66,10 +66,10 @@ DROP TABLE IF EXISTS `cupcake_shop`.`cupcake_toppings`;
 CREATE TABLE IF NOT EXISTS `cupcake_shop`.`cupcake_toppings`
 (
     `cupcake_toppings_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `topping`             VARCHAR(45)  NULL,
+    `name`                VARCHAR(45)  NULL,
     `price`               INT          NOT NULL,
     PRIMARY KEY (`cupcake_toppings_id`),
-    UNIQUE INDEX `topping_UNIQUE` (`topping` ASC) VISIBLE
+    UNIQUE INDEX `topping_UNIQUE` (`name` ASC) VISIBLE
 )
     ENGINE = InnoDB;
 
@@ -82,10 +82,10 @@ DROP TABLE IF EXISTS `cupcake_shop`.`cupcake_bottoms`;
 CREATE TABLE IF NOT EXISTS `cupcake_shop`.`cupcake_bottoms`
 (
     `cupcake_bottoms_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `bottom`             VARCHAR(45)  NULL,
+    `name`               VARCHAR(45)  NULL,
     `price`              INT          NOT NULL,
     PRIMARY KEY (`cupcake_bottoms_id`),
-    UNIQUE INDEX `topping_UNIQUE` (`bottom` ASC) VISIBLE
+    UNIQUE INDEX `topping_UNIQUE` (`name` ASC) VISIBLE
 )
     ENGINE = InnoDB;
 
@@ -134,23 +134,23 @@ SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `cupcake_shop`;
-INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `topping`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `name`, `price`)
 VALUES (DEFAULT, 'Chocolate', 5);
-INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `topping`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `name`, `price`)
 VALUES (DEFAULT, 'Blueberry', 5);
-INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `topping`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `name`, `price`)
 VALUES (DEFAULT, 'Rasberry', 5);
-INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `topping`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `name`, `price`)
 VALUES (DEFAULT, 'Crispy', 6);
-INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `topping`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `name`, `price`)
 VALUES (DEFAULT, 'Strawberry', 6);
-INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `topping`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `name`, `price`)
 VALUES (DEFAULT, 'Rum/Raisin', 7);
-INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `topping`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `name`, `price`)
 VALUES (DEFAULT, 'Orange', 8);
-INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `topping`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `name`, `price`)
 VALUES (DEFAULT, 'Lemon', 8);
-INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `topping`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_toppings` (`cupcake_toppings_id`, `name`, `price`)
 VALUES (DEFAULT, 'Blue cheese', 9);
 
 COMMIT;
@@ -161,15 +161,15 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `cupcake_shop`;
-INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `bottom`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `name`, `price`)
 VALUES (DEFAULT, 'Chocolate', 5);
-INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `bottom`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `name`, `price`)
 VALUES (DEFAULT, 'Vanilla', 5);
-INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `bottom`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `name`, `price`)
 VALUES (DEFAULT, 'Nutmeg', 5);
-INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `bottom`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `name`, `price`)
 VALUES (DEFAULT, 'Pistacio', 6);
-INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `bottom`, `price`)
+INSERT INTO `cupcake_shop`.`cupcake_bottoms` (`cupcake_bottoms_id`, `name`, `price`)
 VALUES (DEFAULT, 'Almond', 7);
 
 COMMIT;

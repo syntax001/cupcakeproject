@@ -1,9 +1,13 @@
 package business.services;
 
+import business.entities.Order;
 import business.entities.User;
 import business.exceptions.UserException;
 import business.persistence.CupcakeMapper;
 import business.persistence.Database;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderFacade {
 
@@ -41,11 +45,25 @@ public class OrderFacade {
         cupcakeMapper.uploadCupcakeOrder(user, topping, bottom, amount);
     }
 
-  /*  public String [] getOrders(User user) throws UserException {
-        String [] orderData;
+   public List<Order> getOrders(User user) throws UserException {
+        List<Order> orders = cupcakeMapper.getOrders(user);
 
-        return orderData;
+        for (Order order: orders) {
+            int cupcakeToppingId = order.getCupcakeToppingId();
+            int cupcakeBottomId = order.getCupcakeBottomId();
+            int amount = order.getAmount();
+
+            String[] cupcakebotTopNames = cupcakeMapper.getCupcakeTopBotNames(cupcakeToppingId, cupcakeBottomId);
+            double[] cupcakesPrices = calcPrices(cupcakeToppingId, cupcakeBottomId, amount);
+
+            order.setCupcakeBotTopNames(cupcakebotTopNames);
+            order.setCupcakePrices(cupcakesPrices);
+        }
+
+        return orders;
     }
 
-   */
+
+
+
 }

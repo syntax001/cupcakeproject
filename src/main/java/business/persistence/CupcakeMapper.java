@@ -1,11 +1,17 @@
 package business.persistence;
 
 import business.entities.CupcakeAccessories;
+import business.entities.Order;
 import business.entities.User;
 import business.exceptions.UserException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class CupcakeMapper {
     private Database database;
@@ -15,17 +21,16 @@ public class CupcakeMapper {
 
     public CupcakeMapper(Database database) throws UserException {
         this.database = database;
-        toppings = new LinkedHashMap<Integer, CupcakeAccessories>();
-        bottoms = new LinkedHashMap<Integer, CupcakeAccessories>();
+        toppings = new LinkedHashMap<>();
+        bottoms = new LinkedHashMap<>();
 
         // Union?????
-        int counter = 0;
+        int counter = 1;
         try (Connection connection = database.connect()) {
             String sql1 = "SELECT name, price FROM cupcake_toppings";
 
             try (PreparedStatement ps = connection.prepareStatement(sql1)) {
                 ResultSet rs = ps.executeQuery();
-                counter = 0;
                 while (rs.next()) {
                     String toppingName = rs.getString("name");
                     int price = rs.getInt("price");
@@ -40,7 +45,7 @@ public class CupcakeMapper {
 
             try (PreparedStatement ps = connection.prepareStatement(sql2)) {
                 ResultSet rs = ps.executeQuery();
-                counter = 0;
+                counter = 1;
                 while (rs.next()) {
                     String bottomName = rs.getString("name");
                     int price = rs.getInt("price");
@@ -81,11 +86,8 @@ public class CupcakeMapper {
     public void uploadCupcakeOrder(User user, int topping, int bottom, int amount) throws UserException {
         int userId = user.getId();
 
-        //TODO: Ændre upload af order (Fjernet orders)
-
         try (Connection connection = database.connect()) {
             String sql = "INSERT INTO cupcake_orders (customer_id, cupcake_toppings_id, cupcake_bottoms_id, amount) VALUES (?, ?, ?, ?)";
-
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setInt(1, userId);
                 ps.setInt(2, topping);
@@ -99,46 +101,30 @@ public class CupcakeMapper {
             throw new UserException(ex.getMessage());
         }
     }
- /*
-    public String [] getOrders(User user) {
-        String [] orders;
-        try (Connection connection = database.connect())
-        {
-            String sql = "SELECT customer_id, role, name, phone_number, balance FROM users WHERE email=? AND password=?";
-            // TODO: Ændre databse (Fjern orders, tilføj customer_id til cupcake_orders
 
-            try (PreparedStatement ps = connection.prepareStatement(sql))
-            {
-                ps.setString(1, email);
-                ps.setString(2, password);
-                ResultSet rs = ps.executeQuery();
-                if (rs.next())
-                {
-                    String role = rs.getString("role");
-                    String name = rs.getString("name");
-                    String phone_number = rs.getString("phone_number");
-                    int balance = rs.getInt("balance");
-                    int id = rs.getInt("customer_id");
-                    User user = new User(email, password, role, phone_number, name, balance);
-                    user.setId(id);
-                    return user;
-                } else
-                {
-                    throw new UserException("Could not validate user");
-                }
+    public List<Order> getOrders(User user) throws UserException {
+        int userId = user.getId();
+        List<Order> orders = new ArrayList<>();
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT order_id, cupcake_toppings_id, cupcake_bottoms_id, amount, order_date FROM cupcake_orders WHERE customer_id=?";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int orderId = rs.getInt("order_id");
+                int cupcakeToppingId = rs.getInt("cupcake_toppings_id");
+                int cupcakeBottomId = rs.getInt("cupcake_bottoms_id");
+                int amount = rs.getInt("amount");
+                String orderDate = rs.getString("order_date");
+
+                Order order = new Order(userId, orderId, cupcakeToppingId, cupcakeBottomId, amount, orderDate);
+                orders.add(order);
             }
-            catch (SQLException ex)
-            {
-                throw new UserException(ex.getMessage());
-            }
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new UserException("Connection to database could not be established");
         }
 
         return orders;
     }
-
-  */
 }

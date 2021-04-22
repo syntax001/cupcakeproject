@@ -16,32 +16,32 @@
 
         <div>
             <h2>Olsker's Cupcake Factory</h2>
-
+            <!-- TODO: Pull toppings og bottoms fra databse -->
             <div style="margin-top: 3em;margin-bottom: 3em;">
                 <form method="post" action="${pageContext.request.contextPath}/fc/cupcakeOrderCommand">
                     <div class="form-group">
                         <label for="topping">Toppings:</label>
                         <select name="topping" id="topping">
-                            <option value="0">Chocolate</option>
-                            <option value="1">Blueberry</option>
-                            <option value="2">Rasberry</option>
-                            <option value="3">Crispy</option>
-                            <option value="4">Strawberry</option>
-                            <option value="5">Rum/Raisin</option>
-                            <option value="6">Orange</option>
-                            <option value="7">Lemon</option>
-                            <option value="8">Blue cheese</option>
+                            <option value="1">Chocolate</option>
+                            <option value="2">Blueberry</option>
+                            <option value="3">Rasberry</option>
+                            <option value="4">Crispy</option>
+                            <option value="5">Strawberry</option>
+                            <option value="6">Rum/Raisin</option>
+                            <option value="7">Orange</option>
+                            <option value="8">Lemon</option>
+                            <option value="9">Blue cheese</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="bottom">Bottoms:</label>
                         <select name="bottom" id="bottom">
-                            <option value="0">Chocolate</option>
-                            <option value="1">Vanilla</option>
-                            <option value="2">Nutmeg</option>
-                            <option value="3">Pistacio</option>
-                            <option value="4">Almond</option>
+                            <option value="1">Chocolate</option>
+                            <option value="2">Vanilla</option>
+                            <option value="3">Nutmeg</option>
+                            <option value="4">Pistacio</option>
+                            <option value="5">Almond</option>
                         </select>
                     </div>
 

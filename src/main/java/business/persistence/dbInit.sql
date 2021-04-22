@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS `cupcake_shop`.`cupcake_orders`
     `cupcake_bottoms_id`  INT UNSIGNED NOT NULL,
     `amount`              INT          NOT NULL,
     `customer_id`         INT UNSIGNED NOT NULL,
+    `order_date`          TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`order_id`, `cupcake_toppings_id`, `cupcake_bottoms_id`, `customer_id`),
     INDEX `fk_cupcake_orders_cupcake_toppings1_idx` (`cupcake_toppings_id` ASC) VISIBLE,
     INDEX `fk_cupcake_orders_cupcake_bottoms1_idx` (`cupcake_bottoms_id` ASC) VISIBLE,

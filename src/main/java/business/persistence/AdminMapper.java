@@ -41,4 +41,29 @@ public class AdminMapper {
         }
         return users;
     }
+
+    public User getUser(int userId) throws UserException {
+        User user;
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT name, email, phone_number, balance, role FROM users WHERE customer_id = ?";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String email = rs.getString("email");
+                String role = rs.getString("role");
+                String phone_number = rs.getString("phone_number");
+                String name = rs.getString("name");
+                int balance = rs.getInt("balance");
+
+                user = new User(userId, email, role, phone_number, name, balance);
+            } else {
+                throw new UserException("User not found in database");
+            }
+        } catch (SQLException | UserException ex) {
+            throw new UserException("Connection to database could not be established");
+        }
+        return user;
+    }
 }

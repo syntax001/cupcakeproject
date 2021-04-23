@@ -6,7 +6,6 @@ import business.exceptions.UserException;
 import business.persistence.CupcakeMapper;
 import business.persistence.Database;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFacade {
@@ -45,10 +44,10 @@ public class OrderFacade {
         cupcakeMapper.uploadCupcakeOrder(user, topping, bottom, amount);
     }
 
-   public List<Order> getOrders(User user) throws UserException {
+    public List<Order> getOrders(User user) throws UserException {
         List<Order> orders = cupcakeMapper.getOrders(user);
 
-        for (Order order: orders) {
+        for (Order order : orders) {
             int cupcakeToppingId = order.getCupcakeToppingId();
             int cupcakeBottomId = order.getCupcakeBottomId();
             int amount = order.getAmount();
@@ -62,8 +61,6 @@ public class OrderFacade {
 
         return orders;
     }
-
-
 
 
 }

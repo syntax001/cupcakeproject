@@ -81,4 +81,25 @@ public class UserMapper
         }
     }
 
+    public void changeUserBalance(User user, int balance) throws UserException {
+        try (Connection connection = database.connect())
+        {
+            String sql = "UPDATE users SET balance = ? WHERE customer_id = ?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql))
+            {
+                ps.setInt(1, balance);
+                ps.setInt(2, user.getId());
+                ps.executeUpdate();
+            }
+            catch (SQLException ex)
+            {
+                throw new UserException(ex.getMessage());
+            }
+        }
+        catch (SQLException | UserException ex)
+        {
+            throw new UserException(ex.getMessage());
+        }
+    }
 }

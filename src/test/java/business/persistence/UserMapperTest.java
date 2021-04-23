@@ -94,4 +94,14 @@ public class UserMapperTest {
         User retrieved = userMapper.login("king@kong.com", "uhahvorhemmeligt");
         assertEquals("konge", retrieved.getRole());
     }
+
+    @Test
+    public void testChangeUserBalance() throws UserException {
+        User user = userMapper.login("jens@somewhere.com", "jensen");
+        userMapper.changeUserBalance(user, 100);
+
+        // Call userMapper.login for updated balance
+        user = userMapper.login("jens@somewhere.com", "jensen");
+        assertEquals(100, user.getBalance());
+    }
 }

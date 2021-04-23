@@ -40,8 +40,16 @@ public class OrderFacade {
         return cupcakebotTopNames;
     }
 
-    public void createOrder(User user, int topping, int bottom, int amount) throws UserException {
-        cupcakeMapper.uploadCupcakeOrder(user, topping, bottom, amount);
+    public int createOrder(User user, int topping, int bottom, int amount) throws UserException {
+        int balance = user.getBalance();
+        double [] prices = cupcakeMapper.getPrices(topping, bottom);
+        int totalPrice = (int) ((prices[0] + prices[1]) * amount) * 100;
+
+        if(balance >= totalPrice) {
+            cupcakeMapper.uploadCupcakeOrder(user, topping, bottom, amount);
+        }
+
+        return (balance - totalPrice);
     }
 
     public List<Order> getOrders(User user) throws UserException {
@@ -61,6 +69,4 @@ public class OrderFacade {
 
         return orders;
     }
-
-
 }

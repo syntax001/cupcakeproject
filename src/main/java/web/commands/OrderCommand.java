@@ -21,6 +21,15 @@ public class OrderCommand extends CommandUnprotectedPage {
         int top = Integer.parseInt(request.getParameter("topping"));
         int bottom = Integer.parseInt(request.getParameter("bottom"));
         int amount = Integer.parseInt(request.getParameter("amount"));
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+
+        int balanceAfterOrder = orderFacade.createOrder(user, top, bottom, amount);
+        if (balanceAfterOrder >= 0) {
+            request.setAttribute("newBalance", balanceAfterOrder);
+        } else {
+            request.setAttribute("moneyMissing", Math.abs(balanceAfterOrder));
+        }
 
         request.setAttribute("top", top);
         request.setAttribute("bottom", bottom);
@@ -35,12 +44,6 @@ public class OrderCommand extends CommandUnprotectedPage {
         String [] topBotNames = orderFacade.getTopBotNames(top, bottom);
         request.setAttribute("topping", topBotNames[0]);
         request.setAttribute("bottom", topBotNames[1]);
-
-        HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        if(user != null) {
-            orderFacade.createOrder(user, top, bottom, amount);
-        }
 
         return pageToShow;
     }

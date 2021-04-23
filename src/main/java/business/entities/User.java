@@ -28,6 +28,15 @@ public class User {
         this.balance = balance;
     }
 
+    public User(int id, String email, String role, String phone_number, String name, int balance) {
+        this.id = id;
+        this.email = email;
+        this.role = role;
+        this.phone_number = phone_number;
+        this.name = name;
+        this.balance = balance;
+    }
+
     public String getPhone_number() {
         return phone_number;
     }

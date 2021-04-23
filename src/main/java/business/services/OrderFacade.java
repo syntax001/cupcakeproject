@@ -40,7 +40,7 @@ public class OrderFacade {
         return cupcakebotTopNames;
     }
 
-    public void uploadOrder(User user, int topping, int bottom, int amount) throws UserException {
+    public void createOrder(User user, int topping, int bottom, int amount) throws UserException {
         cupcakeMapper.uploadCupcakeOrder(user, topping, bottom, amount);
     }
 

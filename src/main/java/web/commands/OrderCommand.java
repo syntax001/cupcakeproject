@@ -39,7 +39,7 @@ public class OrderCommand extends CommandUnprotectedPage {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         if(user != null) {
-            orderFacade.uploadOrder(user, top, bottom, amount);
+            orderFacade.createOrder(user, top, bottom, amount);
         }
 
         return pageToShow;

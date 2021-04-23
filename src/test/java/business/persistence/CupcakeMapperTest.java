@@ -59,7 +59,7 @@ public class CupcakeMapperTest {
         User user = new User("test@test.com", "123", "customer", "73899212", "test");
         user.setId(1);
         for(int i = 0; i >= 1; i++) {
-            orderFacade.uploadOrder(user, 2*i, 5, 10*i);
+            orderFacade.createOrder(user, 2*i, 5, 10*i);
         }
         List<Order> orders = cupcakeMapper.getOrders(user);
 

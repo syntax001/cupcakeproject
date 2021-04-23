@@ -19,4 +19,9 @@ public class AdminFacade {
 
         return users;
     }
+
+    public User getUser(int userId) throws UserException {
+        User user = adminMapper.getUser(userId);
+        return user;
+    }
 }

@@ -3,6 +3,7 @@ package business.persistence;
 import business.entities.User;
 import business.exceptions.UserException;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -23,9 +24,10 @@ public class AdminMapperTest {
     private static Database database;
     private static AdminMapper adminMapper;
     private static UserMapper userMapper;
+    private static List<User> users;
 
     @BeforeAll
-    public static void setUpClass() {
+    public static void setUpClass() throws UserException {
         try {
             database = new Database(USER, PASSWORD, URL);
             try (Statement stmt = database.connect().createStatement()) {
@@ -50,11 +52,8 @@ public class AdminMapperTest {
         } catch (ClassNotFoundException e) {   // kan ikke finde driveren i database klassen
             fail("Database connection failed. Missing jdbc driver");
         }
-    }
 
-    @Test
-    public void testGetAllUsers() throws UserException {
-        List<User> users = new ArrayList<>();
+        users = new ArrayList<>();
         users.add(new User("user1@test.com", "test", "customer", "82931032", "Jens Paulsen"));
         users.add(new User("user2@test.com", "test", "employee", "23451322", "Frederik Jensen"));
         users.add(new User("user3@test.com", "test", "customer", "54324523", "Paul Gamer"));
@@ -64,7 +63,10 @@ public class AdminMapperTest {
         for (User user : users) {
             userMapper.createUser(user);
         }
+    }
 
+    @Test
+    public void testGetAllUsers() throws UserException {
         List<User> usersFromAdminMapper = adminMapper.getAllUsers();
 
         int counter = 0;
@@ -76,5 +78,16 @@ public class AdminMapperTest {
             assertEquals(user_.getName(), user.getName());
             counter++;
         }
+    }
+
+    @Test
+    public void testGetUser() throws UserException {
+        User user_ = adminMapper.getUser(1);
+
+        User user = users.get(0);
+        assertEquals(user.getEmail(), user_.getEmail());
+        assertEquals(user.getRole(), user_.getRole());
+        assertEquals(user.getPhone_number(), user_.getPhone_number());
+        assertEquals(user.getName(), user_.getName());
     }
 }

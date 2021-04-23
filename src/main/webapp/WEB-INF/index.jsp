@@ -19,7 +19,7 @@
             <!-- TODO: Pull toppings og bottoms fra databse -->
             <div style="margin-top: 3em;margin-bottom: 3em;">
                 <c:if test="${sessionScope.user != null}">
-                <form method="post" action="${pageContext.request.contextPath}/fc/cupcakeOrderCommand">
+                <form method="post" action="${pageContext.request.contextPath}/fc/cupcakeordercommand">
 
                     </c:if>
 

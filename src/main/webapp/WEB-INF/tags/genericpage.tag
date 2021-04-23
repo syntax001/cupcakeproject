@@ -36,7 +36,7 @@
 
         <!-- Also redirect towards page requested after log in -->
         <c:if test="${sessionScope.user != null }">
-            <a class="p-2 text-dark" href="${pageContext.request.contextPath}/fc/myorderscommand">Orders</a>
+            <a class="p-2 text-dark" href="${pageContext.request.contextPath}/fc/myOrdersCommand">Orders</a>
         </c:if>
         <c:if test="${sessionScope.user == null }">
             <a class="p-2 text-dark" href="${pageContext.request.contextPath}/fc/loginpage">Orders</a>

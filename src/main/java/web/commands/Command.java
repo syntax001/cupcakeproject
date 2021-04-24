@@ -29,6 +29,8 @@ public abstract class Command
         commands.put("employeepage", new CommandProtectedPage("employeepage", "employee"));
         commands.put("cupcakeOrderCommand", new OrderCommand("receipt"));
         commands.put("myOrdersCommand", new MyOrdersCommand("myorders", "customer"));
+        commands.put("balancechangecommand", new CommandProtectedPage("adminpage", "employee"));
+        commands.put("adminpage", new CommandProtectedPage("admin", "employee"));
     }
 
     public static Command fromPath(

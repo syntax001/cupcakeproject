@@ -13,9 +13,17 @@
     </jsp:attribute>
 
     <jsp:body>
-
         <div>
+        <c:if test="${requestScope.newBalance != null}">
             <h2>Receipt for ordered cupcakes</h2>
+            <p>Your new balance is $${requestScope.newBalance}</p>
+        </c:if>
+
+        <c:if test="${requestScope.moneyMissing != null}">
+            <h2>Your balance is too low!</h2>
+            <p>You are missing $${requestScope.moneyMissing}</p>
+            <a href="${pageContext.request.contextPath}/fc/index">Tilbage til forsiden</a>
+        </c:if>
 
             <div>
                 <table>
@@ -32,7 +40,7 @@
                         </td>
                         <td>
                             <p>(Topping: ${requestScope.topping}: $${requestScope.toppingPrice},
-                                 Bottom: ${requestScope.bottom}: $${requestScope.bottomPrice})</p>
+                                Bottom: ${requestScope.bottom}: $${requestScope.bottomPrice})</p>
                         </td>
                         <td>
                             <p>${requestScope.amount}</p>
@@ -48,7 +56,6 @@
 
                 <p><b>Total price: $${requestScope.totalPrice}</b></p>
             </div>
-
            <%-- <c:if test="${sessionScope.role == 'employee' }">
                 <p style="font-size: larger">This is what you can do,
                     since your are logged in as an employee</p>

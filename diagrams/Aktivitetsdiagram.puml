@@ -1,0 +1,20 @@
+@startuml
+|Kunde|
+start
+:Bestil Cupcake;
+:Betal;
+|System|
+:Ordre]
+:Opret Kvittering]
+fork
+|Kunde|
+:Kvittering]
+:Afhent ordre;
+fork again
+|Bageri|
+:Bag cupcakes;
+:cupcakes]
+end fork
+:Afhent cupcakes;
+stop
+@enduml

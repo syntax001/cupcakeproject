@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+[*] --> index.jsp
+index.jsp --> loginpage.jsp
+index.jsp --> registerpage.jsp
+registerpage.jsp --> index.jsp: Opret konto
+loginpage.jsp --> loggedOn: Log in
+
+state loggedOn {
+    [*] --> Index.jsp
+    Index.jsp --> receipt.jsp: Bestil cupcake
+    Index.jsp --> myorders.jsp: Ordreliste
+}
+@enduml
